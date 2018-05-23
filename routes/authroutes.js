@@ -14,7 +14,7 @@ authRouter.get('/google', passport.authenticate('google', {
 }));
 
 authRouter.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  res.send("reached call back uri");
+  res.send(req.user);
 });
 
 module.exports = authRouter;

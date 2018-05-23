@@ -1,18 +1,59 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleStrategy = require('passport-google-oauth20');
+const User = require('../models/user');
+
+passport.serializeUser( (user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser( (id, done) => {
+  User.findById(id)
+  .then( (user) => {
+    done(null, user);
+  });
+});
 
 passport.use(
   new GoogleStrategy(
     {
       callbackURL: '/auth/google/redirect',
       clientID: process.env.GOOGLE_OAUTH_CLIENTID,
-      // clientID: '118006337654-b9ossk9nujrhdc7ep76mbmrqugp8ttse.apps.googleusercontent.com',
       clientSecret: process.env.GOOGLE_OAUTH_CLIENTSECRET
-      // clientSecret: 'YJtw1BK3o2xXcN8BlYQZZgrc'
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log("Passport callback fired");
-      console.log(profile);
+      User.findOne({
+        googleID: profile.id
+      })
+      .then( currentUser => {
+        if (!currentUser){
+          var user = new User({
+            username: profile.displayName,
+            googleID: profile.id,
+            gender: profile.gender,
+            profile_pic: profile.photos[0].value
+          });
+
+          user.save()
+          .then( newuser => {
+            console.log("Created User ",newuser);
+          })
+          .catch( err => {
+            console.log("MLAB Error ", err);
+          });
+
+          done(null, user);
+
+        } else {
+          console.log("Current User is ", currentUser);
+          done(null, currentUser);
+        }
+      })
+      .catch( err => {
+        console.log(err);
+      })
+
+
+
       // done();
     }
   )
