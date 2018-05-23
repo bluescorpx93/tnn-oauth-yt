@@ -2,11 +2,12 @@ const authRouter = require('express').Router();
 const passport = require('passport');
 
 authRouter.get('/login', (req, res) => {
-  res.render('login');
+  res.render('login', {user: req.user});
 });
 
 authRouter.get('/logout', (req, res) => {
-  res.status(200).send('Handle logout with passport');
+  req.logout();
+  res.redirect('/home');
 });
 
 authRouter.get('/google', passport.authenticate('google', {
@@ -14,7 +15,8 @@ authRouter.get('/google', passport.authenticate('google', {
 }));
 
 authRouter.get('/google/redirect', passport.authenticate('google'), (req, res) => {
-  res.send(req.user);
+  // res.send(req.user);
+  res.redirect('/profile');
 });
 
 module.exports = authRouter;

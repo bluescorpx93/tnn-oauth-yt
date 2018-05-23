@@ -9,16 +9,26 @@
 <body>
   <div class='container'>
     <div class='col-md-12'>
-      <h1> Home Page</h1>
+      <h1> Profile Page</h1>
       <a class='btn btn-outline-secondary' href='/home'> Home</a>
       <% if (user) { %>
         <a class='btn btn-outline-secondary' href='/auth/logout'> Logout</a>
       <% } else {  %>
         <a class='btn btn-outline-secondary' href='/auth/login'> Login</a>
       <% } %>
-      <a class='btn btn-outline-secondary' href='/profile'> Profile</a>
     </div>
-  </div>
+    <div class='col-md-12' style='margin-top:64px'>
+      <h1> <%= user.username %></h1>
+      <div class='col-md-6'>
+        <img src='<%= user.profile_pic %>'>
+        <p> Gender: <%= user.gender %></p>
+      </div>
+      <div class='col-md-6'>
+        <p> Wow</p>
+        <p> Logged in using OAuth</p>
+      </div>
+    </div>
 
+  </div>
 </body>
 </html>

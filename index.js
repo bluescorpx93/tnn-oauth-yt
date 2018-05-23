@@ -8,6 +8,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const profileRoutes = require('./routes/profileroutes');
+const authCheck = require('./middleware/authcheck');
 
 mongoose.connect(process.env.MONGO_URI, () => {
   console.log("MLAB Connection Info");
@@ -29,10 +31,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/home', (req, res) => {
-  res.render('home');
+  res.render('home', {user: req.user});
 });
 
 app.use('/auth', authRoutes);
+app.use('/profile', authCheck, profileRoutes);
 
 app.get('*', (req, res) => {
   res.redirect('/home');
