@@ -10,8 +10,10 @@ passport.use(
       clientSecret: process.env.GOOGLE_OAUTH_CLIENTSECRET
       // clientSecret: 'YJtw1BK3o2xXcN8BlYQZZgrc'
     },
-    () => {
-
+    (accessToken, refreshToken, profile, done) => {
+      console.log("Passport callback fired");
+      console.log(profile);
+      // done();
     }
   )
 );

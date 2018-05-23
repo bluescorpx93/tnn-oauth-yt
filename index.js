@@ -5,6 +5,11 @@ const port = process.env.PORT || 3000;
 const authRoutes = require('./routes/authroutes');
 const passportSetup = require('./config/passport-setup');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGO_URI, () => {
+  console.log("MLAB Connection Info");
+})
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
