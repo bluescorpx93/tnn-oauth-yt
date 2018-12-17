@@ -1,14 +1,15 @@
 {
   "name": "oauth_app",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start-app" : "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "private": true,
+  "author": "Toufiq (https://twitter.com/burningraven06)",
+  "description" : "Passport/OAuth with Node, Express Tryout ",
+  "keywords" : [  "passport","oauth","node","express","bcrypt","database","mongodb"],
   "license": "ISC",
   "dependencies": {
     "cookie-session": "^2.0.0-beta.3",
